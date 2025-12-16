@@ -28,8 +28,6 @@ bool isValidEmail(const string& email) {
            dotPos < email.length() - 1;
 }
 
-
-
 struct ScoreNode {
     float obtained;
     float total;
@@ -95,10 +93,6 @@ public:
 };
 
 StudentNode* studentHead = NULL;
-
-// ==========================================
-// 2. NEW MODULE: PERFORMANCE ANALYZER
-// ==========================================
 
 struct MarksRecord {
     string studentID;
@@ -246,7 +240,7 @@ public:
     }
 };
 
-// [ADDED] Bridge Function
+//Bridge Function
 vector<MarksRecord> exportToAnalysisFormat() {
     vector<MarksRecord> records;
     StudentNode* temp = studentHead;
@@ -274,10 +268,6 @@ vector<MarksRecord> exportToAnalysisFormat() {
     }
     return records;
 }
-
-// ==========================================
-// 3. FILE I/O (MASTER PROJECT)
-// ==========================================
 
 void loadUsers() {
     ifstream file("users.txt");
@@ -379,10 +369,6 @@ void saveMarkToFile(string id, string name, string sub, string type, float obt, 
     file.close();
 }
 
-// ==========================================
-// 4. CALCULATION LOGIC (MASTER PROJECT)
-// ==========================================
-
 class Calculation {
 public:
     static double SubjectAverage(Subject &sub) {
@@ -469,10 +455,6 @@ public:
     }
 }
 };
-
-// ==========================================
-// 5. REPORTING & ANALYTICS (MASTER PROJECT)
-// ==========================================
 
 void showWeakSubjects(Student &stu) {
     cout << "\nWeak Subjects (Below 40%):\n";
@@ -599,19 +581,18 @@ void searchByName(string name) {
     if (!found) cout << "No student found with name: " << name << endl;
 }
 
-// [ADDED] NEW MENU FUNCTION FOR PREDICTIVE ANALYSIS
 void viewPredictiveAnalysis() {
-    // 1. Fetch data from Linked List and convert
+    //Fetch data from Linked List and convert
     vector<MarksRecord> records = exportToAnalysisFormat();
     
-    // Check if we actually have data
+    //Check if we actually have data
     if (records.empty()) {
         cout << "\n[!] No student marks found to analyze." << endl;
         cout << "    Please use 'Add Marks' to enter data first." << endl;
     } else {
         vector<AnalyzedStudent> students = PerformanceAnalyzer::convertFromStorage(records);
 
-        // 2. Display Header
+        // Display Header
         cout << "\n================ PREDICTIVE ANALYSIS REPORT ================\n";
         cout << left << setw(20) << "Name" 
                   << setw(15) << "Trend" 
@@ -619,7 +600,7 @@ void viewPredictiveAnalysis() {
                   << "Weak Subjects" << endl;
         cout << "----------------------------------------------------------------\n";
 
-        // 3. Loop and Analyze
+        //Loop and Analyze
         for (const auto& s : students) {
             float predicted = PerformanceAnalyzer::predictNextScore(s.scoreHistory);
             string trend = PerformanceAnalyzer::detectTrend(s.scoreHistory);
@@ -639,15 +620,10 @@ void viewPredictiveAnalysis() {
         cout << "================================================================\n";
     }
 
-    // PAUSE Mechanism so user can read output
     cout << "\nPress Enter to return to menu.";
     cin.ignore(); 
     cin.get();
 }
-
-// ==========================================
-// 6. MAIN LOGIC (Merged Menus)
-// ==========================================
 
 string login(string role) {
 	role = toLower(role);
@@ -675,7 +651,6 @@ void teacherMenu() {
         cout << "4. Filter by Marks Threshold\n"; 
         cout << "5. Show Dropping Performance\n"; 
         cout << "6. View Class Rankings\n"; 
-        // [ADDED] Option 7
         cout << "7. View Predictive Analysis & Trends\n";
         cout << "8. Logout\n";
         cout << "Choice: "; cin >> option;
@@ -736,7 +711,6 @@ void teacherMenu() {
            }
         }
         else if (option == 7) {
-            // [ADDED] Call the new analysis function
             viewPredictiveAnalysis();
         }
     } while (option != 8);
