@@ -29,9 +29,6 @@ bool isValidEmail(const string& email) {
 }
 
 
-// ==========================================
-// 1. DATA STRUCTURES (MASTER PROJECT)
-// ==========================================
 
 struct ScoreNode {
     float obtained;
